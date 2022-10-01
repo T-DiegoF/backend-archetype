@@ -5,6 +5,7 @@ import {
   OneToOne,
   JoinColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Address } from './address.entity';
 import { User } from './user.entity';
@@ -18,8 +19,9 @@ export class Profile {
   @JoinColumn()
   user: User;
 
-  @OneToMany(() => Address, (address) => address.profile)
-  addresses: Address[];
+  @ManyToOne(() => User)
+  @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
+  addresses: Address;
 
   @Column()
   name: string;
