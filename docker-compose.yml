@@ -4,6 +4,8 @@ services:
       dockerfile: Dockerfile
       context: .
       target: development
+    depends_on:
+      - db
     volumes:
       - ./usr:/src/app
     env_file:
@@ -11,7 +13,7 @@ services:
     command: npm run start:dev
     ports:
       - 3000:3000
-    network_mode: host
+
   db:
     image: mysql
     volumes:
@@ -29,3 +31,6 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+volumes:
+  dbdata:

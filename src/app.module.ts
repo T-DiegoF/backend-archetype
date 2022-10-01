@@ -7,10 +7,10 @@ import { AuthModule } from './api/auth/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'db',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: 'example',
       database: 'test',
       autoLoadEntities: true,
       synchronize: true,
