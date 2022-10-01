@@ -9,7 +9,7 @@ import { IUserAuthRepository } from './register-repository.interface';
 
 @Injectable()
 export class UserAuthRepository implements IUserAuthRepository {
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) { }
 
   async register(registerDTO: RegisterDTO) {
     const { username, password, name, street } = registerDTO;
@@ -40,6 +40,8 @@ export class UserAuthRepository implements IUserAuthRepository {
       await queryRunner.release();
     }
   }
+
+
 
   login(loginDTO: LoginDTO) {
     throw new Error('Method not implemented.');
