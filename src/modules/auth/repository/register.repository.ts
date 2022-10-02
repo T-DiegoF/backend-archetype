@@ -1,21 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { DataSource } from 'typeorm';
-import { Address } from '../../domain/entities/address.entity';
-import { Profile } from '../../domain/entities/profile.entity';
-import { User } from '../../domain/entities/user.entity';
+/* import { Injectable } from '@nestjs/common';
+import { InjectDataSource, InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import { Connection } from 'mysql2';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { LoginDTO } from '../dto/login.dto';
 import { RegisterDTO } from '../dto/register.dto';
+import { Address } from '../entities/address.entity';
+import { Profile } from '../entities/profile.entity';
+import { User } from '../entities/user.entity';
 import { IUserAuthRepository } from './register-repository.interface';
 
 @Injectable()
-export class UserAuthRepository implements IUserAuthRepository {
-  constructor(private dataSource: DataSource) { }
+export class UserAuthRepository extends Repository<User> implements IUserAuthRepository {
+
 
   async register(registerDTO: RegisterDTO) {
     const { username, password, name, street } = registerDTO;
     const user = new User();
     user.username = username;
     user.password = password;
+
 
     const profile = new Profile();
     profile.name = name;
@@ -47,3 +50,7 @@ export class UserAuthRepository implements IUserAuthRepository {
     throw new Error('Method not implemented.');
   }
 }
+
+
+
+ */

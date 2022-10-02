@@ -1,5 +1,5 @@
-CREATE DATABASE test;
-USE test;
+CREATE DATABASE test2;
+USE test2;
 
 CREATE TABLE IF NOT EXISTS test.Country (
     id INT AUTO_INCREMENT,
