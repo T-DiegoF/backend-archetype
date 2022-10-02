@@ -21,7 +21,7 @@ export class Profile {
 
   @ManyToOne(() => User)
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
-  addresses: Address;
+  address: Address;
 
   @Column()
   name: string;

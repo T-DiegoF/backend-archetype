@@ -6,9 +6,11 @@ export class Address {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Profile, (profile) => profile.addresses)
+  @ManyToOne(() => Profile, (profile) => profile.address)
   profile: Profile;
 
   @Column()
   street: string;
+
+
 }

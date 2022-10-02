@@ -1,7 +1,5 @@
-import {
-  IsNotEmpty,
-  IsString,
-} from '@nestjs/class-validator';
+import { IsNotEmpty, IsString } from '@nestjs/class-validator';
+import { IsObject } from 'class-validator';
 
 export class RegisterDTO {
   @IsNotEmpty()
@@ -17,6 +15,6 @@ export class RegisterDTO {
   name: string;
 
   @IsNotEmpty()
-  @IsString()
-  street: string;
+  @IsObject()
+  address: object;
 }
