@@ -1,4 +1,4 @@
-/* import {
+import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
@@ -19,5 +19,3 @@ export class City {
   @Column()
   name: string;
 }
-
- */

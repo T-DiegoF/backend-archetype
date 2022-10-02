@@ -4,9 +4,9 @@ import { UserAuthRepository } from './repository/register.repository';
 
 @Injectable()
 export class AuthProvider {
-  constructor(private registerRepository: UserAuthRepository) { }
+  constructor(private registerRepository: UserAuthRepository) {}
 
-  create(registerDTO: RegisterDTO): Promise<void> {
+  create(registerDTO: RegisterDTO): any {
     return this.registerRepository.register(registerDTO);
   }
 }

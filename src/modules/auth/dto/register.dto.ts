@@ -1,7 +1,12 @@
-import { IsNotEmpty, IsString } from '@nestjs/class-validator';
+import { IsNotEmpty, IsString, ValidateNested } from '@nestjs/class-validator';
+import { Type } from 'class-transformer';
 import { IsObject } from 'class-validator';
+import { Address } from '../entities/address.entity';
+import { User } from '../entities/user.entity';
+import { TypeAddress } from './address.type';
 
 export class RegisterDTO {
+
   @IsNotEmpty()
   @IsString()
   username: string;
@@ -14,7 +19,6 @@ export class RegisterDTO {
   @IsString()
   name: string;
 
-  @IsNotEmpty()
   @IsObject()
-  address: object;
+  address: Partial<Address>;
 }

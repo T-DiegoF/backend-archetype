@@ -14,7 +14,10 @@ export class UserAuthRepository {
 
   async register(registerDTO: RegisterDTO) {
     const queryRunner = this.dataSource.createQueryRunner();
-    const { username, password, name, address } = registerDTO;
+    await queryRunner.connect();
+
+    const { username, password, name } = registerDTO;
+
 
     const user = new User();
     user.username = username;
@@ -22,11 +25,18 @@ export class UserAuthRepository {
 
     const profile = new Profile();
     profile.name = name;
-    profile.address
-    await queryRunner.connect();
+    console.log("LOOGS", profile)
+    console.log("LOOGS", user)
+
+
+
+
     await queryRunner.startTransaction();
     try {
+      await queryRunner.manager.save(profile);
       await queryRunner.manager.save(user);
+
+
 
       await queryRunner.commitTransaction();
     } catch (err) {

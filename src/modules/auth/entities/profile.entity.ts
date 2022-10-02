@@ -15,6 +15,9 @@ export class Profile {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  name: string;
+
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
@@ -22,7 +25,4 @@ export class Profile {
   @ManyToOne(() => User)
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
   address: Address;
-
-  @Column()
-  name: string;
 }
