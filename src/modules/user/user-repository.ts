@@ -8,7 +8,7 @@ export class UserRepository {
   constructor(
     @InjectDataSource()
     private dataSource: DataSource,
-  ) { }
+  ) {}
 
   async findOne(username: any): Promise<User> {
     try {

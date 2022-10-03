@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { genSalt, hash } from 'bcryptjs';
+import { compare, genSalt, hash } from 'bcryptjs';
 import { profile } from 'console';
+import { UserRepository } from 'src/modules/user/user-repository';
 import { DataSource } from 'typeorm';
 import { LoginDTO } from '../dto/login.dto';
 import { RegisterDTO } from '../dto/register.dto';
@@ -18,8 +19,9 @@ export class UserAuthRepository {
   constructor(
     @InjectDataSource()
     private dataSource: DataSource,
+    private userRepository: UserRepository,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -61,5 +63,33 @@ export class UserAuthRepository {
     }
   }
 
-  async login(loginDTO: LoginDTO) {}
+  async login(loginDTO: LoginDTO): Promise<{ token: string }> {
+    try {
+      const { username, password } = loginDTO;
+
+      const user: User = await this.userRepository.findOne(username);
+
+      if (!user) {
+        throw new NotFoundException('user not found');
+      }
+
+      console.log('pass', user.username);
+      const isMatch = await compare(password, user.password);
+
+      if (!isMatch) {
+        throw new UnauthorizedException('Wrong password');
+      }
+
+      const payload: IJwtPayload = {
+        id: user.id,
+        username: user.username,
+      };
+
+      const token = await this.jwtService.sign(payload);
+
+      return { token };
+    } catch (error) {
+      console.log('ERROR auth provider', error);
+    }
+  }
 }

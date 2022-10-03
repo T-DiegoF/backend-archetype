@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcryptjs';
 import { UserRepository } from '../user/user-repository';
@@ -12,47 +16,19 @@ import { IJwtPayload } from './strategies/jwt-payload.interface';
 export class AuthProvider {
   constructor(
     private authRepository: UserAuthRepository,
-    private userRepository: UserRepository,
-    private jwtService: JwtService
   ) { }
 
   create(registerDTO: RegisterDTO): Promise<void> {
     return this.authRepository.register(registerDTO);
   }
 
-  async login(loginDTO: LoginDTO): Promise<any> {
-
+  async login(loginDTO: LoginDTO): Promise<{ token: string }> {
     try {
-      const { username, password } = loginDTO;
+      return this.authRepository.login(loginDTO);
 
-
-      const user: User = await this.userRepository.findOne(username)
-
-      if (!user) {
-        throw new NotFoundException('user not found');
-      }
-
-      console.log("pass", user.username)
-      const isMatch = await compare(password, user.password);
-
-      if (!isMatch) {
-        throw new UnauthorizedException('Wrong password');
-      }
-
-      const payload: IJwtPayload = {
-        id: user.id,
-        username: user.username
-      };
-
-      const token = await this.jwtService.sign(payload);
-
-      return { token };
     } catch (error) {
-      console.log("ERROR auth provider", error)
-
+      console.log("error service")
     }
-
-
 
   }
 }

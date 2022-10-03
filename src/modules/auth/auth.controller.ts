@@ -26,16 +26,17 @@ export class AuthController {
     } catch (error) {
       throw new BadRequestException(error.message);
     }
-
   }
 
   @Post('login')
-  async loginUser(@Body() loginDTO: LoginDTO) {
+  async loginUser(@Body() loginDTO: LoginDTO): Promise<{ token: string }> {
     try {
       return this.authProvider.login(loginDTO);
     } catch (error) {
-      throw new HttpException(error.message, error.status || HttpStatus.BAD_REQUEST)
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.BAD_REQUEST,
+      );
     }
-
   }
 }
