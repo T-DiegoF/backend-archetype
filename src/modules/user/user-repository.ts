@@ -1,21 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { User } from '../auth/entities/user.entity';
 
 @Injectable()
 export class UserRepository {
   constructor(
     @InjectDataSource()
     private dataSource: DataSource,
-  ) {}
+  ) { }
 
-  async findOne(username: string) {
+  async findOne(username: any): Promise<User> {
     try {
-      const rows = await this.dataSource.query(
-        'SELECT id,username FROM `User` WHERE `username` = ?',
-        [username],
+      const [result] = await this.dataSource.query(
+        'SELECT * FROM `User` WHERE `username` = ?',
+        username,
       );
-      return rows;
+
+      return result;
     } catch (error) {
       console.log('ERROR findOne', error);
     }

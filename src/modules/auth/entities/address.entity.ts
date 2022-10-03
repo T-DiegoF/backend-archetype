@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 import { City } from './city.entitiy';
 
-
 @Entity()
 export class Address {
   @PrimaryGeneratedColumn()
@@ -17,7 +16,6 @@ export class Address {
   @Column()
   street: string;
 
-
-  @ManyToOne(() => City, (city) => city.id, { cascade: true },)
+  @ManyToOne(() => City, (city) => city.id, { cascade: true })
   city: City;
 }

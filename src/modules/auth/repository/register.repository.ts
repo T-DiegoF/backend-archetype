@@ -19,7 +19,7 @@ export class UserAuthRepository {
     @InjectDataSource()
     private dataSource: DataSource,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -46,27 +46,20 @@ export class UserAuthRepository {
 
       const addressE = new Address();
       addressE.street = street;
-      addressE.city = cityId
+      addressE.city = cityId;
 
-      profileE.address = addressE
+      profileE.address = addressE;
       await queryRunner.manager.save(userE);
       await queryRunner.manager.save(addressE);
       await queryRunner.manager.save(profileE);
       await queryRunner.commitTransaction();
-
     } catch (err) {
       await queryRunner.rollbackTransaction();
       throw new Error(err);
-
     } finally {
       await queryRunner.release();
     }
   }
 
-  async login(loginDTO: LoginDTO) {
-
-
-
-
-  }
+  async login(loginDTO: LoginDTO) {}
 }
