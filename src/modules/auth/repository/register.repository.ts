@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { genSalt, hash } from 'bcryptjs';
+import { profile } from 'console';
 import { DataSource } from 'typeorm';
+import { LoginDTO } from '../dto/login.dto';
 import { RegisterDTO } from '../dto/register.dto';
 import { Address } from '../entities/address.entity';
 import { City } from '../entities/city.entitiy';
@@ -17,9 +19,9 @@ export class UserAuthRepository {
     @InjectDataSource()
     private dataSource: DataSource,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
-  async register(registerDTO: RegisterDTO) {
+  async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
@@ -30,7 +32,7 @@ export class UserAuthRepository {
         username,
         password,
         name,
-        address: { street, city, country },
+        address: { street, cityId },
       } = registerDTO;
 
       const salt = await genSalt(10);
@@ -44,33 +46,27 @@ export class UserAuthRepository {
 
       const addressE = new Address();
       addressE.street = street;
+      addressE.city = cityId
 
-      const cityE = new City();
-      cityE.name = city;
-
-      addressE.city = cityE;
-
-      const countryE = new Country();
-      countryE.name = country;
-
+      profileE.address = addressE
       await queryRunner.manager.save(userE);
       await queryRunner.manager.save(addressE);
       await queryRunner.manager.save(profileE);
-      await queryRunner.manager.save(cityE);
-
-      const payload: IJwtPayload = {
-        id: userE.id,
-        username: userE.username,
-      };
-
-      const token = await this.jwtService.sign(payload);
       await queryRunner.commitTransaction();
 
-      return { token };
     } catch (err) {
       await queryRunner.rollbackTransaction();
+      throw new Error(err);
+
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async login(loginDTO: LoginDTO) {
+
+
+
+
   }
 }

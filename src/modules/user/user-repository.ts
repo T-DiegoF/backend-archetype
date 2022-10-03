@@ -11,7 +11,7 @@ export class UserRepository {
 
   async findOne(username: string) {
     try {
-      const [rows] = await this.dataSource.query(
+      const rows = await this.dataSource.query(
         'SELECT id,username FROM `User` WHERE `username` = ?',
         [username],
       );

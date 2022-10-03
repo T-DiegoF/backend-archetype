@@ -2,8 +2,7 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  JoinColumn,
-  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 import { Country } from './country.entity';
 
@@ -12,10 +11,7 @@ export class City {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Country, {
-    cascade: true,
-  })
-  @JoinColumn()
+  @ManyToOne(() => Country, (country) => country.id)
   country: Country;
 
   @Column()

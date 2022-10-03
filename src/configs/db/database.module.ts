@@ -18,7 +18,8 @@ import { ConfigModule } from '../app/config.module';
         password: 'example',
         database: 'test',
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: true,
+        dropSchema: false,
       }),
     }),
   ],
@@ -26,5 +27,5 @@ import { ConfigModule } from '../app/config.module';
   providers: [],
 })
 export class DatabaseModule {
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) { }
 }

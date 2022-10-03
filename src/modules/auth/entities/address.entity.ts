@@ -7,7 +7,7 @@ import {
   OneToOne,
 } from 'typeorm';
 import { City } from './city.entitiy';
-import { Profile } from './profile.entity';
+
 
 @Entity()
 export class Address {
@@ -17,9 +17,7 @@ export class Address {
   @Column()
   street: string;
 
-  @OneToOne(() => City, {
-    cascade: true,
-  })
-  @JoinColumn()
+
+  @ManyToOne(() => City, (city) => city.id, { cascade: true },)
   city: City;
 }
