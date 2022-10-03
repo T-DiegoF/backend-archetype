@@ -18,11 +18,15 @@ export class Profile {
   @Column()
   name: string;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, {
+    cascade: true,
+  })
   @JoinColumn()
   user: User;
 
-  @ManyToOne(() => User)
-  @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
+  @OneToOne(() => Address, {
+    cascade: true,
+  })
+  @JoinColumn()
   address: Address;
 }
