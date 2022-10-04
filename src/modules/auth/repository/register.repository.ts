@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { compare, genSalt, hash } from 'bcryptjs';
@@ -18,7 +22,7 @@ export class UserAuthRepository {
     private dataSource: DataSource,
     private userRepository: UserRepository,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -64,13 +68,12 @@ export class UserAuthRepository {
     try {
       const { username, password } = loginDTO;
 
-      const user: User = await this.userRepository.findUser(username);
+      const user: User = await this.userRepository.findUsername(username);
 
       if (!user) {
         throw new NotFoundException('user not found');
       }
 
-      console.log('pass', user.username);
       const isMatch = await compare(password, user.password);
 
       if (!isMatch) {
