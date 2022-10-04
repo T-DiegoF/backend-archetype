@@ -2,14 +2,11 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { JwtService } from '@nestjs/jwt';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { compare, genSalt, hash } from 'bcryptjs';
-import { profile } from 'console';
 import { UserRepository } from 'src/modules/user/user-repository';
 import { DataSource } from 'typeorm';
 import { LoginDTO } from '../dto/login.dto';
 import { RegisterDTO } from '../dto/register.dto';
 import { Address } from '../entities/address.entity';
-import { City } from '../entities/city.entitiy';
-import { Country } from '../entities/country.entity';
 import { Profile } from '../entities/profile.entity';
 import { User } from '../entities/user.entity';
 import { IJwtPayload } from '../strategies/jwt-payload.interface';
@@ -67,7 +64,7 @@ export class UserAuthRepository {
     try {
       const { username, password } = loginDTO;
 
-      const user: User = await this.userRepository.findOne(username);
+      const user: User = await this.userRepository.findUser(username);
 
       if (!user) {
         throw new NotFoundException('user not found');

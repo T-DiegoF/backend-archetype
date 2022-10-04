@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+  app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -16,6 +17,10 @@ async function bootstrap() {
     .setDescription('Challenge for the position of Backend developer.')
     .setVersion('1.0')
     .addTag('Lucky app')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'access-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

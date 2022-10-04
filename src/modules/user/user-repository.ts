@@ -8,9 +8,9 @@ export class UserRepository {
   constructor(
     @InjectDataSource()
     private dataSource: DataSource,
-  ) {}
+  ) { }
 
-  async findOne(username: any): Promise<User> {
+  async findUser(username: any): Promise<User> {
     try {
       const [result] = await this.dataSource.query(
         'SELECT * FROM `User` WHERE `username` = ?',
@@ -22,4 +22,19 @@ export class UserRepository {
       console.log('ERROR findOne', error);
     }
   }
+
+  /*   async findInformationAboutUser() {
+      try {
+        const [result] = await this.dataSource.query(
+          'SELECT * FROM `User` WHERE `username` = ?',
+          username,
+        );
+  
+        return result;
+      } catch (error) {
+        console.log('ERROR findOne', error);
+      }
+    } */
+
 }
+
