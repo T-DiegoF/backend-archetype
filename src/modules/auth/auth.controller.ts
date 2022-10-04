@@ -25,6 +25,7 @@ export class AuthController {
     try {
       return this.authProvider.create(registerDTO);
     } catch (error) {
+      this.logger.error('Error:', error.stack, AuthController.name);
       throw new BadRequestException(error.message);
     }
   }
@@ -34,10 +35,8 @@ export class AuthController {
     try {
       return this.authProvider.login(loginDTO);
     } catch (error) {
-      throw new HttpException(
-        error.message,
-        error.status || HttpStatus.BAD_REQUEST,
-      );
+      this.logger.error('Error:', error.stack, AuthController.name);
+      throw new BadRequestException(error.message);
     }
   }
 }

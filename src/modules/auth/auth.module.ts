@@ -13,13 +13,13 @@ import { City } from './entities/city.entitiy';
 import { Country } from './entities/country.entity';
 import { Profile } from './entities/profile.entity';
 import { User } from './entities/user.entity';
-import { UserAuthRepository } from './repository/register.repository';
+import { AuthRepository } from './repository/register.repository';
 import { JwtStrategy } from './strategies/jw.strategy';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      UserAuthRepository,
+      AuthRepository,
       User,
       Profile,
       City,
@@ -46,7 +46,7 @@ import { JwtStrategy } from './strategies/jw.strategy';
   ],
 
   controllers: [AuthController],
-  providers: [JwtStrategy, AuthProvider, UserAuthRepository],
+  providers: [JwtStrategy, AuthProvider, AuthRepository],
   exports: [JwtStrategy, PassportModule],
 })
-export class AuthModule {}
+export class AuthModule { }

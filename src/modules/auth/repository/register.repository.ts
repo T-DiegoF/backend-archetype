@@ -19,7 +19,7 @@ import { User } from '../entities/user.entity';
 import { IJwtPayload } from '../strategies/jwt-payload.interface';
 
 @Injectable()
-export class UserAuthRepository {
+export class AuthRepository {
   constructor(
     @InjectDataSource()
     private dataSource: DataSource,
@@ -32,6 +32,7 @@ export class UserAuthRepository {
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
+    this.logger.info('starting transaction', { provider: AuthRepository.name });
     await queryRunner.startTransaction();
 
     try {
@@ -60,9 +61,11 @@ export class UserAuthRepository {
       await queryRunner.manager.save(addressE);
       await queryRunner.manager.save(profileE);
       await queryRunner.commitTransaction();
+      this.logger.info('commit transaction, user save', { provider: AuthRepository.name });
     } catch (err) {
+      this.logger.error('Error, rollback Transaction:', err.stack, AuthRepository.name);
       await queryRunner.rollbackTransaction();
-      throw new Error(err);
+      throw new Error(err.message);
     } finally {
       await queryRunner.release();
     }
@@ -92,8 +95,8 @@ export class UserAuthRepository {
       const token = await this.jwtService.sign(payload);
 
       return { token };
-    } catch (error) {
-      console.log('ERROR auth provider', error);
+    } catch (err) {
+      this.logger.error('Error, method login:', err.stack, AuthRepository.name);
     }
   }
 }
