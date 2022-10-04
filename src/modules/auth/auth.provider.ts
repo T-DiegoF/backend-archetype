@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { LoginDTO } from './dto/login.dto';
 import { RegisterDTO } from './dto/register.dto';

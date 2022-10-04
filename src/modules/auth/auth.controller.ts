@@ -2,15 +2,9 @@ import {
   Controller,
   Body,
   Post,
-  UsePipes,
-  ValidationPipe,
   BadRequestException,
   HttpException,
   HttpStatus,
-  CacheKey,
-  CacheTTL,
-  Inject,
-  CACHE_MANAGER,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthProvider } from './auth.provider';
@@ -20,7 +14,7 @@ import { RegisterDTO } from './dto/register.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authProvider: AuthProvider) { }
+  constructor(private authProvider: AuthProvider) {}
 
   @Post('register')
   async createUser(@Body() registerDTO: RegisterDTO): Promise<void> {
@@ -30,7 +24,6 @@ export class AuthController {
       throw new BadRequestException(error.message);
     }
   }
-
 
   @Post('login')
   async loginUser(@Body() loginDTO: LoginDTO): Promise<{ token: string }> {

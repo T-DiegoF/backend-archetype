@@ -5,13 +5,15 @@ import { UserController } from 'src/modules/user/user.controller';
 import { UserService } from 'src/modules/user/user.provider';
 
 @Module({
-    imports: [CacheModule.register({ isGlobal: true })],
-    controllers: [UserController],
-    providers: [UserService, UserRepository,
-        {
-            provide: APP_INTERCEPTOR,
-            useClass: CacheInterceptor,
-        },
-    ],
+  imports: [CacheModule.register({ isGlobal: true })],
+  controllers: [UserController],
+  providers: [
+    UserService,
+    UserRepository,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
+  ],
 })
-export class RedisModule { }
+export class RedisModule {}

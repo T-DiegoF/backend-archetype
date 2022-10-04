@@ -1,12 +1,11 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigurationAPP, ConfigurationDB } from 'src/configs/app/config';
+import { ConfigurationAPP } from 'src/configs/app/config';
 import { ConfigModule } from 'src/configs/app/config.module';
 import { ConfigService } from 'src/configs/app/config.service';
 import { UserModule } from '../user/user-module';
-import { UserRepository } from '../user/user-repository';
 import { AuthController } from './auth.controller';
 import { AuthProvider } from './auth.provider';
 import { Address } from './entities/address.entity';
@@ -50,4 +49,4 @@ import { JwtStrategy } from './strategies/jw.strategy';
   providers: [JwtStrategy, AuthProvider, UserAuthRepository],
   exports: [JwtStrategy, PassportModule],
 })
-export class AuthModule { }
+export class AuthModule {}

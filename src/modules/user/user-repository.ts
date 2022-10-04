@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { Request } from 'express';
 import { DataSource } from 'typeorm';
 import { User } from '../auth/entities/user.entity';
 
@@ -9,7 +8,7 @@ export class UserRepository {
   constructor(
     @InjectDataSource()
     private dataSource: DataSource,
-  ) { }
+  ) {}
 
   async findUsername(username: any): Promise<User> {
     try {
@@ -28,11 +27,10 @@ export class UserRepository {
     try {
       const [row] = await this.dataSource.query(
         'SELECT * FROM `user` INNER JOIN `profile` ON `user`.`id` = ?' +
-        'INNER JOIN `address` ON `profile`.`addressId` = `address`.`id`' +
-        'INNER JOIN `city` ON `address`.`id` = `city`.`id`' +
-        'INNER JOIN `country` ON `city`.`countryId` = `country`.`id`',
-        [`${id}`]
-
+          'INNER JOIN `address` ON `profile`.`addressId` = `address`.`id`' +
+          'INNER JOIN `city` ON `address`.`id` = `city`.`id`' +
+          'INNER JOIN `country` ON `city`.`countryId` = `country`.`id`',
+        [`${id}`],
       );
 
       return row;
@@ -40,6 +38,4 @@ export class UserRepository {
       console.log('ERROR findOne', error);
     }
   }
-
 }
-
