@@ -5,8 +5,11 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus,
+  Inject,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 import { AuthProvider } from './auth.provider';
 import { LoginDTO } from './dto/login.dto';
 import { RegisterDTO } from './dto/register.dto';
@@ -14,7 +17,8 @@ import { RegisterDTO } from './dto/register.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authProvider: AuthProvider) {}
+  constructor(private authProvider: AuthProvider,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) { }
 
   @Post('register')
   async createUser(@Body() registerDTO: RegisterDTO): Promise<void> {

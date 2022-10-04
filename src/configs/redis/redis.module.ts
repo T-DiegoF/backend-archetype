@@ -3,6 +3,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { UserRepository } from 'src/modules/user/user-repository';
 import { UserController } from 'src/modules/user/user.controller';
 import { UserService } from 'src/modules/user/user.provider';
+import { Logger } from 'winston';
 
 @Module({
   imports: [CacheModule.register({ isGlobal: true })],
@@ -16,4 +17,4 @@ import { UserService } from 'src/modules/user/user.provider';
     },
   ],
 })
-export class RedisModule {}
+export class RedisModule { }

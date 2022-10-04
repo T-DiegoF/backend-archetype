@@ -2,11 +2,15 @@ import {
   CacheInterceptor,
   Controller,
   Get,
+  Inject,
+  Logger,
+  LoggerService,
   Request,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { JwtAuthGuard } from './guard/user.guard';
 import { UserService } from './user.provider';
 
@@ -14,7 +18,10 @@ import { UserService } from './user.provider';
 @Controller('user')
 @ApiBearerAuth()
 export class UserController {
-  constructor(private userProvider: UserService) {}
+  constructor(
+    private userProvider: UserService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) { }
 
   @UseGuards(JwtAuthGuard)
   @Get('info')
@@ -23,7 +30,7 @@ export class UserController {
     try {
       return this.userProvider.findUser(req.user.id);
     } catch (error) {
-      console.log('error controller');
+      this.logger.error('Error UserController:', error.stack, UserController.name);
     }
   }
 }
