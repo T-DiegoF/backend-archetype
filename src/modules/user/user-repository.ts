@@ -15,19 +15,22 @@ export class UserRepository {
 
   async findUsername(username: any): Promise<User> {
     try {
+      this.logger.info('searching user by username', { repository: UserRepository.name });
       const [result] = await this.dataSource.query(
         'SELECT * FROM `User` WHERE `username` = ?',
         [`${username}`],
       );
 
       return result;
-    } catch (error) {
-      console.log('ERROR findOne', error);
+    } catch (err) {
+      this.logger.error('Error findUsername():', err.message, UserRepository.name);
+      throw new Error(err.stack);
     }
   }
 
   async findUser(id: any) {
     try {
+      this.logger.info('searching user by req.user.id', { repository: UserRepository.name });
       const [row] = await this.dataSource.query(
         'SELECT * FROM `user` INNER JOIN `profile` ON `user`.`id` = ?' +
         'INNER JOIN `address` ON `profile`.`addressId` = `address`.`id`' +
@@ -37,8 +40,9 @@ export class UserRepository {
       );
 
       return row;
-    } catch (error) {
-      console.log('ERROR findOne', error);
+    } catch (err) {
+      this.logger.error('Error findUser():', err.message, UserRepository.name);
+      throw new Error(err.stack);
     }
   }
 }

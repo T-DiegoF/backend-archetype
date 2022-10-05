@@ -12,10 +12,12 @@ export class UserService {
   async findUser(id: any): Promise<void> {
 
     try {
-      this.logger.info('Calling user Service');
+      this.logger.info('Calling UserService()');
       return this.userRepository.findUser(id);
-    } catch (error) {
-      this.logger.error('Error:', error.stack, UserService.name);
+    } catch (err) {
+      this.logger.error('Error UserService():', err.message, UserRepository.name);
+      throw new Error(err.stack);
+
     }
 
   }

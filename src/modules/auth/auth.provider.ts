@@ -15,8 +15,8 @@ export class AuthProvider {
       this.logger.info('Calling create()', { provider: AuthProvider.name });
       return this.authRepository.register(registerDTO);
     } catch (error) {
-      this.logger.error('Error:', error.stack, AuthProvider.name);
-      throw new Error(error.message);
+      this.logger.error('Error:', error.message, AuthProvider.name);
+      throw new Error(error.stack);
     }
 
   }
@@ -26,8 +26,8 @@ export class AuthProvider {
       this.logger.info('Calling login()', { provider: AuthProvider.name });
       return this.authRepository.login(loginDTO);
     } catch (error) {
-      this.logger.error('Error:', error.stack, AuthProvider.name);
-      throw new Error(error.message);
+      this.logger.error('Error: invalid credentials', error.message, AuthProvider.name);
+      throw new Error(error.stack);
     }
   }
 }

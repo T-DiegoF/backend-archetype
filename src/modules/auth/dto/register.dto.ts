@@ -1,5 +1,11 @@
 import { IsNotEmpty, IsString } from '@nestjs/class-validator';
-import { IsObject } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsDefined, IsNotEmptyObject, IsObject, ValidateNested } from 'class-validator';
+import { Address } from '../entities/address.entity';
+import { City } from '../entities/city.entitiy';
+import { TypeAddressDTO } from './address.type';
+
 
 export class RegisterDTO {
   @IsNotEmpty()
@@ -15,5 +21,7 @@ export class RegisterDTO {
   name: string;
 
   @IsObject()
-  address: any;
+  @ValidateNested()
+  @Type(() => TypeAddressDTO)
+  address: TypeAddressDTO;
 }

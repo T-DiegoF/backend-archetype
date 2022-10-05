@@ -53,19 +53,20 @@ export class AuthRepository {
       profileE.user = userE;
 
       const addressE = new Address();
+
       addressE.street = street;
       addressE.city = cityId;
-
+      console.log(typeof addressE.city)
       profileE.address = addressE;
       await queryRunner.manager.save(userE);
       await queryRunner.manager.save(addressE);
       await queryRunner.manager.save(profileE);
       await queryRunner.commitTransaction();
-      this.logger.info('commit transaction, user save', { provider: AuthRepository.name });
+      this.logger.info('commit transaction, user saved', { repository: AuthRepository.name });
     } catch (err) {
-      this.logger.error('Error, rollback Transaction:', err.stack, AuthRepository.name);
+      this.logger.error('Error, rollback Transaction:', err.message, AuthRepository.name);
       await queryRunner.rollbackTransaction();
-      throw new Error(err.message);
+      throw new Error(err.stack);
     } finally {
       await queryRunner.release();
     }
@@ -92,11 +93,14 @@ export class AuthRepository {
         username: user.username,
       };
 
-      const token = await this.jwtService.sign(payload);
 
+      const token = await this.jwtService.sign(payload);
+      this.logger.info('user found, login successful', { repository: AuthRepository.name });
       return { token };
+
     } catch (err) {
-      this.logger.error('Error, method login:', err.stack, AuthRepository.name);
+      this.logger.error('Error, method login:', err.message, AuthRepository.name);
+      throw new Error(err.stack);
     }
   }
 }

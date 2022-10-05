@@ -10,5 +10,5 @@ export class Address {
   street: string;
 
   @ManyToOne(() => City, (city) => city.id, { cascade: true })
-  city: City;
+  city: number | City;
 }
