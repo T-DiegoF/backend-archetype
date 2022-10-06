@@ -25,8 +25,8 @@ export class AuthRepository {
     private dataSource: DataSource,
     private userRepository: UserRepository,
     private readonly jwtService: JwtService,
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
-  ) { }
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -56,15 +56,21 @@ export class AuthRepository {
 
       addressE.street = street;
       addressE.city = cityId;
-      console.log(typeof addressE.city)
+
       profileE.address = addressE;
       await queryRunner.manager.save(userE);
       await queryRunner.manager.save(addressE);
       await queryRunner.manager.save(profileE);
       await queryRunner.commitTransaction();
-      this.logger.info('commit transaction, user saved', { repository: AuthRepository.name });
+      this.logger.info('commit transaction, user saved', {
+        repository: AuthRepository.name,
+      });
     } catch (err) {
-      this.logger.error('Error, rollback Transaction:', err.message, AuthRepository.name);
+      this.logger.error(
+        'Error, rollback Transaction:',
+        err.message,
+        AuthRepository.name,
+      );
       await queryRunner.rollbackTransaction();
       throw new Error(err.stack);
     } finally {
@@ -93,13 +99,17 @@ export class AuthRepository {
         username: user.username,
       };
 
-
       const token = await this.jwtService.sign(payload);
-      this.logger.info('user found, login successful', { repository: AuthRepository.name });
+      this.logger.info('user found, login successful', {
+        repository: AuthRepository.name,
+      });
       return { token };
-
     } catch (err) {
-      this.logger.error('Error, method login:', err.message, AuthRepository.name);
+      this.logger.error(
+        'Error, method login:',
+        err.message,
+        AuthRepository.name,
+      );
       throw new Error(err.stack);
     }
   }

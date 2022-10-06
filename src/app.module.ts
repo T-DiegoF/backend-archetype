@@ -10,7 +10,11 @@ import {
 import * as winston from 'winston';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, RedisModule,
+  imports: [
+    DatabaseModule,
+    AuthModule,
+    UserModule,
+    RedisModule,
     WinstonModule.forRoot({
       transports: [
         new winston.transports.Console({

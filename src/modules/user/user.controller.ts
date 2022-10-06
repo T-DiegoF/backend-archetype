@@ -1,5 +1,8 @@
 import {
   CacheInterceptor,
+  CacheKey,
+  CacheTTL,
+  CACHE_MANAGER,
   Controller,
   Get,
   Inject,
@@ -22,15 +25,22 @@ export class UserController {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) { }
 
-  @UseGuards(JwtAuthGuard)
   @Get('info')
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
+  @CacheKey('user-info')
   getUserInfo(@Request() req) {
     try {
-      this.logger.info('Calling findUser(req.user.id)', { controller: UserController.name });
+      this.logger.info('Calling findUser(req.user.id)', {
+        controller: UserController.name,
+      });
       return this.userProvider.findUser(req.user.id);
     } catch (error) {
-      this.logger.error('Error UserController:', error.stack, UserController.name);
+      this.logger.error(
+        'Error UserController:',
+        error.stack,
+        UserController.name,
+      );
     }
   }
 }

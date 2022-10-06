@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly configService: ConfigService,
     private readonly userRepository: UserRepository,
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -22,7 +22,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: IJwtPayload) {
-
     try {
       const { username } = payload;
       const user = await this.userRepository.findUsername(username);
@@ -32,10 +31,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       }
       this.logger.info('payload:', payload, JwtStrategy.name);
       return payload;
-
     } catch (error) {
       this.logger.error('Error :', error.stack, JwtStrategy.name);
     }
-
   }
 }

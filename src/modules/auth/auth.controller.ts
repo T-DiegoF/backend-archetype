@@ -17,8 +17,10 @@ import { RegisterDTO } from './dto/register.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authProvider: AuthProvider,
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) { }
+  constructor(
+    private authProvider: AuthProvider,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   @Post('register')
   async createUser(@Body() registerDTO: RegisterDTO): Promise<void> {
