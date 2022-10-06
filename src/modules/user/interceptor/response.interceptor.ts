@@ -4,30 +4,25 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Address } from 'src/modules/auth/entities/address.entity';
+import { map, Observable } from 'rxjs';
 
-export interface Response<T> {
-  id: number;
-  name: string;
-  /*  address: {
-         city:string,
-         country:string
-     } */
-}
 
-@Injectable()
-export class TransformInterceptor<T> implements NestInterceptor<Response<T>> {
+export class TransformInterceptor implements NestInterceptor {
   intercept(
     context: ExecutionContext,
-    next: CallHandler,
-  ): Observable<Response<T>> {
+    next: CallHandler<any>
+  ): Observable<any> {
     return next.handle().pipe(
-      map((data) => ({
-        id: data[0].id,
-        name: data[0].name,
-      })),
-    );
+      map((data) =>
+        data.map((elem) => ({
+          id: elem.id,
+          name: elem.name,
+          address: {
+            street: elem.street,
+            city: elem.city,
+            country: elem.country,
+          },
+        }))));
   }
 }
+

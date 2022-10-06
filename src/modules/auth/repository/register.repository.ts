@@ -26,7 +26,7 @@ export class AuthRepository {
     private userRepository: UserRepository,
     private readonly jwtService: JwtService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) {}
+  ) { }
 
   async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();

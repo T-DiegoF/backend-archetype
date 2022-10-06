@@ -25,4 +25,4 @@ import * as winston from 'winston';
     }),
   ],
 })
-export class AppModule { }
+export class AppModule {}
