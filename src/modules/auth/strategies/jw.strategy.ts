@@ -2,11 +2,11 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { UnauthorizedException, Injectable, Inject } from '@nestjs/common';
 import { IJwtPayload } from './jwt-payload.interface';
-import { ConfigurationAPP } from 'src/configs/app/config';
-import { UserRepository } from 'src/modules/user/user-repository';
-import { ConfigService } from 'src/configs/app/config.service';
+import { ConfigurationAPP } from '../../../configs/app/config';
+import { UserRepository } from '../../../modules/user/user-repository';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
+import { ConfigService } from '../../../configs/app/config.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

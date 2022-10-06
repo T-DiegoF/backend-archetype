@@ -1,10 +1,9 @@
 import { CacheModule, Module, CacheInterceptor } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { UserRepository } from 'src/modules/user/user-repository';
-import { UserController } from 'src/modules/user/user.controller';
-import { UserService } from 'src/modules/user/user.provider';
+import { UserRepository } from '../../modules/user/user-repository';
+import { UserController } from '../../modules/user/user.controller';
+import { UserService } from '../../modules/user/user.provider';
 import * as redisStore from 'cache-manager-redis-store';
-import { Logger } from 'winston';
 
 @Module({
   imports: [
@@ -28,4 +27,4 @@ import { Logger } from 'winston';
     },
   ],
 })
-export class RedisModule { }
+export class RedisModule {}

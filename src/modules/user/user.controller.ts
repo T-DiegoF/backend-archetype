@@ -14,6 +14,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { JwtAuthGuard } from './guard/user.guard';
+import { TransformInterceptor } from './interceptor/response.interceptor';
 import { UserService } from './user.provider';
 
 @ApiTags('user')
@@ -23,12 +24,13 @@ export class UserController {
   constructor(
     private userProvider: UserService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) { }
+  ) {}
 
   @Get('info')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
   @CacheKey('user-info')
+  @UseInterceptors(TransformInterceptor)
   getUserInfo(@Request() req) {
     try {
       this.logger.info('Calling findUser(req.user.id)', {

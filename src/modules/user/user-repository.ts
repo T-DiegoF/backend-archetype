@@ -12,7 +12,7 @@ export class UserRepository {
     @InjectDataSource()
     private dataSource: DataSource,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) { }
+  ) {}
 
   async findUsername(username: any): Promise<User> {
     try {

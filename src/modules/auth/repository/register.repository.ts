@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { UserRepository } from 'src/modules/user/user-repository';
+import { UserRepository } from '../../../modules/user/user-repository';
 import { DataSource } from 'typeorm';
 import { Logger } from 'winston';
 import { LoginDTO } from '../dto/login.dto';

@@ -39,6 +39,18 @@ services:
     depends_on:
       - "db"
 
+  test-db:
+    image: mysql
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - ./sql/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
 volumes:
   dbdata:
   data:

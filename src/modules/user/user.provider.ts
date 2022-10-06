@@ -9,14 +9,13 @@ export class UserService {
   constructor(
     private userRepository: UserRepository,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-    @Inject(CACHE_MANAGER) protected readonly cacheManager
-  ) { }
+    @Inject(CACHE_MANAGER) protected readonly cacheManager,
+  ) {}
 
   async findUser(id: number): Promise<UserResponse> {
     try {
       await this.logger.info('Calling UserService()');
       return this.userRepository.findUser(id);
-
     } catch (err) {
       this.logger.error(
         'Error UserService():',

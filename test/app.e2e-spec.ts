@@ -1,24 +1,39 @@
+import * as request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AuthModule } from '../src/modules/auth/auth.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { WinstonModule } from 'nest-winston';
 
-describe('AppController (e2e)', () => {
+describe('Cats', () => {
   let app: INestApplication;
+  let catsService = { findAll: () => ['test'] };
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+  beforeAll(async () => {
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      imports: [
+        AuthModule,
+        WinstonModule,
+        TypeOrmModule.forRoot({
+          type: 'mysql',
+          host: 'test-db',
+          port: 3307,
+          username: 'root',
+          password: 'example',
+          database: 'test',
+          autoLoadEntities: true,
+          synchronize: true,
+        }),
+      ],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleRef.createNestApplication();
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  it.todo('Create [POST /]');
+
+  afterAll(async () => {
+    await app.close();
   });
 });

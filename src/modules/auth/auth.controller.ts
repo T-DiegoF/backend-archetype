@@ -3,8 +3,6 @@ import {
   Body,
   Post,
   BadRequestException,
-  HttpException,
-  HttpStatus,
   Inject,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -20,7 +18,7 @@ export class AuthController {
   constructor(
     private authProvider: AuthProvider,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) {}
+  ) { }
 
   @Post('register')
   async createUser(@Body() registerDTO: RegisterDTO): Promise<void> {

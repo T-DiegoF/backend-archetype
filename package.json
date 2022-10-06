@@ -18,7 +18,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "pretest:e2e": "docker-compose up -d test-db",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "posttest:e2e": "docker-compose stop test-db && docker-compose rm -f test-db"
   },
   "dependencies": {
     "@nestjs/class-validator": "^0.13.4",
@@ -50,7 +52,7 @@
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
-    "@nestjs/testing": "^9.0.0",
+    "@nestjs/testing": "^9.1.4",
     "@types/bcryptjs": "^2.4.2",
     "@types/cache-manager": "^4.0.2",
     "@types/express": "^4.17.13",
@@ -59,8 +61,8 @@
     "@types/passport": "^1.0.11",
     "@types/passport-jwt": "^3.0.7",
     "@types/supertest": "^2.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -80,7 +82,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": "test",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
