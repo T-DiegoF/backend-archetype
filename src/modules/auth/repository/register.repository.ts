@@ -1,6 +1,7 @@
 import {
   Inject,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -26,7 +27,7 @@ export class AuthRepository {
     private userRepository: UserRepository,
     private readonly jwtService: JwtService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) {}
+  ) { }
 
   async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -46,7 +47,7 @@ export class AuthRepository {
       const user: User = await this.userRepository.findUsername(username);
 
       if (user) {
-        throw new NotFoundException('username not available');
+        throw new InternalServerErrorException('username not available');
       }
 
       const salt = await genSalt(10);
@@ -97,7 +98,7 @@ export class AuthRepository {
       const isMatch = await compare(password, user.password);
 
       if (!isMatch) {
-        throw new UnauthorizedException('incorrect username or password');
+        throw new UnauthorizedException('incorrect password');
       }
 
       const payload: IJwtPayload = {
