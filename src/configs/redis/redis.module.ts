@@ -10,7 +10,7 @@ import * as redisStore from 'cache-manager-redis-store';
     CacheModule.register({
       store: redisStore,
       socket: {
-        host: 'redis',
+        host: 'rd',
         port: 4953,
       },
 

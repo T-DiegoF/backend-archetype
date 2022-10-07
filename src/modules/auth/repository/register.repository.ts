@@ -26,7 +26,7 @@ export class AuthRepository {
     private userRepository: UserRepository,
     private readonly jwtService: JwtService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) { }
+  ) {}
 
   async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -42,6 +42,12 @@ export class AuthRepository {
         name,
         address: { street, cityId },
       } = registerDTO;
+
+      const user: User = await this.userRepository.findUsername(username);
+
+      if (user) {
+        throw new NotFoundException('username not available');
+      }
 
       const salt = await genSalt(10);
       const userE = new User();
@@ -85,13 +91,13 @@ export class AuthRepository {
       const user: User = await this.userRepository.findUsername(username);
 
       if (!user) {
-        throw new NotFoundException('user not found');
+        throw new UnauthorizedException('user not found');
       }
 
       const isMatch = await compare(password, user.password);
 
       if (!isMatch) {
-        throw new UnauthorizedException('Wrong password');
+        throw new UnauthorizedException('incorrect username or password');
       }
 
       const payload: IJwtPayload = {

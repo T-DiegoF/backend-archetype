@@ -6,11 +6,10 @@ import {
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 
-
 export class TransformInterceptor implements NestInterceptor {
   intercept(
     context: ExecutionContext,
-    next: CallHandler<any>
+    next: CallHandler<any>,
   ): Observable<any> {
     return next.handle().pipe(
       map((data) =>
@@ -22,7 +21,8 @@ export class TransformInterceptor implements NestInterceptor {
             city: elem.city,
             country: elem.country,
           },
-        }))));
+        })),
+      ),
+    );
   }
 }
-
