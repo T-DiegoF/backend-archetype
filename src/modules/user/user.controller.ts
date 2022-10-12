@@ -27,7 +27,7 @@ export class UserController {
   constructor(
     private userProvider: UserService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) { }
+  ) {}
 
   @Get('info')
   @ApiResponse({ status: 201, description: 'success' })

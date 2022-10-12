@@ -5,7 +5,7 @@ import {
   Inject,
   UseFilters,
   UnauthorizedException,
-  ForbiddenException
+  ForbiddenException,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
@@ -22,8 +22,7 @@ export class AuthController {
   constructor(
     private authProvider: AuthProvider,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) { }
-
+  ) {}
 
   @Post('register')
   @ApiResponse({ status: 201, description: 'User created' })

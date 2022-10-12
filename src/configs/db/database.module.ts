@@ -10,19 +10,21 @@ import appConfiguration from '../app/app.configuration';
       load: [appConfiguration],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: async (config: ConfigService) => ({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => ({
         type: 'mysql',
-        host: process.env.DB_HOST,
-        port: +process.env.DB_PORT,
-        username: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
+        host: config.get('database.host'),
+        port: +config.get('database.port'),
+        username: config.get('database.username'),
+        password: config.get('database.password'),
+        database: config.get('database.databaseName'),
         autoLoadEntities: true,
         synchronize: false, //false because we load the database with the script that is inside .sql and is used by docker-compose in the entrypoint
       }),
+      inject: [ConfigService],
     }),
   ],
 })
 export class DatabaseModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }

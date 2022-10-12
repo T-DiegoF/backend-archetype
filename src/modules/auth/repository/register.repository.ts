@@ -27,7 +27,7 @@ export class AuthRepository {
     private userRepository: UserRepository,
     private readonly jwtService: JwtService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) { }
+  ) {}
 
   async register(registerDTO: RegisterDTO): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -112,12 +112,8 @@ export class AuthRepository {
       });
       return { token };
     } catch (err) {
-      this.logger.error(
-        'Error, method login:',
-        err.message,
-        AuthRepository.name,
-      );
-      throw new Error(err.stack);
+      this.logger.error('Error, method login:', err, AuthRepository.name);
+      throw new Error(err);
     }
   }
 }

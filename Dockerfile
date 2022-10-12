@@ -1,13 +1,9 @@
-FROM node:18-alpine As development
+FROM node:18 AS development
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node package*.json ./
+COPY package*.json ./
 
-RUN npm i
+RUN npm install
 
-COPY --chown=node:node . .
-
-USER node
-
-CMD [ "node", "dist/main.js" ]
+COPY . .
