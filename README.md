@@ -24,7 +24,7 @@ City
 | id | name |
 | ------ | ------ |
 | 1 | "La Plata"
-| 2 | "Seatlle" 
+| 2 | "Seattle" 
 | 3 | "Tokyo" 
 | 4 | "Perth"
 | 5 | "New York" |
