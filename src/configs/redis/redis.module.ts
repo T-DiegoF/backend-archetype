@@ -4,27 +4,26 @@ import { UserRepository } from '../../modules/user/user-repository';
 import { UserController } from '../../modules/user/user.controller';
 import { UserService } from '../../modules/user/user.provider';
 import * as redisStore from 'cache-manager-redis-store';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import appConfiguration from '../app/app.configuration';
 
 @Module({
   imports: [
-    CacheModule.register({
-      store: redisStore,
-      socket: {
-        host: 'rd',
-        port: 4953,
-      },
-
-      isGlobal: true,
+    ConfigModule.forRoot({
+      load: [appConfiguration]
+    }),
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        store: redisStore,
+        socket: {
+          host: config.get('redis.host'),
+          port: +config.get('redis.port'),
+        },
+        isGlobal: true,
+      }),
+      inject: [ConfigService],
     }),
   ],
-  controllers: [UserController],
-  providers: [
-    UserService,
-    UserRepository,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },
-  ],
 })
-export class RedisModule {}
+export class RedisModule { }

@@ -7,4 +7,8 @@ export default () => ({
     password: process.env.DB_PASSWORD,
     databaseName: process.env.DB_NAME,
   },
+  redis: {
+    host: process.env.RD_HOST,
+    port: parseInt(process.env.RD_PORT, 10) || 6379
+  }
 });

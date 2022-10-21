@@ -36,8 +36,7 @@ CREATE TABLE IF NOT EXISTS  city (
     id int NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     countryId int NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (countryId) REFERENCES country(id)
+    PRIMARY KEY (id)
 );
 
 ALTER TABLE profile ADD FOREIGN KEY (addressId) REFERENCES address(id);

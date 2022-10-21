@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { UnauthorizedExceptionFilter } from 'src/exceptionsFilter/unauthorizedException.filter';
+import { UnauthorizedExceptionFilter } from 'src/modules/auth/exceptionsFilter/unauthorizedException.filter';
 import { Logger } from 'winston';
 import { JwtAuthGuard } from './guard/user.guard';
 import { TransformInterceptor } from './interceptor/response.interceptor';
@@ -27,7 +27,7 @@ export class UserController {
   constructor(
     private userProvider: UserService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) {}
+  ) { }
 
   @Get('info')
   @ApiResponse({ status: 201, description: 'success' })

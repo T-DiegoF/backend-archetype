@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { HttpExceptionFilter } from 'src/exceptionsFilter/httpExceptionException.filter';
-import { UnauthorizedExceptionFilter } from 'src/exceptionsFilter/unauthorizedException.filter';
+import { HttpExceptionFilter } from 'src/modules/auth/exceptionsFilter/httpExceptionException.filter';
+import { UnauthorizedExceptionFilter } from 'src/modules/auth/exceptionsFilter/unauthorizedException.filter';
 import { Logger } from 'winston';
 import { AuthProvider } from './auth.provider';
 import { LoginDTO } from './dto/login.dto';
@@ -22,7 +22,7 @@ export class AuthController {
   constructor(
     private authProvider: AuthProvider,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-  ) {}
+  ) { }
 
   @Post('register')
   @ApiResponse({ status: 201, description: 'User created' })

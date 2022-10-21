@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RedisModule } from '../../configs/redis/redis.module';
 import { User } from '../auth/entities/user.entity';
@@ -7,9 +7,9 @@ import { UserController } from './user.controller';
 import { UserService } from './user.provider';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), RedisModule],
+  imports: [TypeOrmModule.forFeature([User]), CacheModule.register()],
   providers: [UserRepository, UserService],
   controllers: [UserController],
-  exports: [UserRepository, UserService, RedisModule],
+  exports: [UserRepository, UserService],
 })
-export class UserModule {}
+export class UserModule { }
