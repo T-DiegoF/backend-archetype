@@ -37,7 +37,7 @@ City
 | 12 | "Rosario" |
 
 ## ERD
-![ERD](https://user-images.githubusercontent.com/45670616/194600353-a90ee512-db6d-4e31-b846-4acbfec3ae53.png)
+![ERD](https://github.com/T-DiegoF/lucky/blob/dev/assets/ERD.png?raw=true)
 
 ## Docker
 To run the project
